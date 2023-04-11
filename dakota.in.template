@@ -1,0 +1,24 @@
+environment
+    results_output
+    hdf5
+
+method
+    {method}
+    samples = {nb_of_samples}
+    {extra_keys}
+    output silent
+
+variables
+    continuous_design = {dimension}
+    lower_bounds = {lower_bounds}
+    upper_bounds = {upper_bounds}
+
+interface
+    analysis_driver = 'genz'
+    analysis_components = '{analysis_components}'
+    direct
+
+responses
+    objective_functions = 1
+    no_gradients
+    no_hessians
