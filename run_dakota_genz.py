@@ -34,8 +34,8 @@ def parse_keywords(**kwargs):
     replace["lower_bounds"] = "0 "*kwargs["dimension"]
     replace["upper_bounds"] = "1 "*kwargs["dimension"]
     replace["nb_of_samples"] = str(kwargs["nb_of_samples"])
-    if kwargs["method"] == "random":
-        replace["method"] = "sampling sample_type random"
+    if kwargs["method"] in ["random", "lhs"]:
+        replace["method"] = "sampling sample_type " + kwargs["method"]
         replace["extra_keys"] = "seed " + str(kwargs["seed"])
     else:
         replace["method"] = "fsu_quasi_mc " + kwargs["method"]
@@ -89,13 +89,13 @@ def main():
     parser.add_argument("-a", "--analysis_components", type=str, default=defaults["analysis_components"],
         help=f"coefficient decay (default is '{defaults['analysis_components']}', see dakota manual)")
     parser.add_argument("-m", "--method", type=str, default=defaults["method"],
-        help=f"choose from 'random', 'halton' or 'hammersly' (default is '{defaults['method']}')")
+        help=f"choose from 'random', 'lhs', 'halton' or 'hammersly' (default is '{defaults['method']}')")
     parser.add_argument("-n", "--nb_of_samples", type=int, default=defaults["nb_of_samples"],
         help=f"number of samples (default is {defaults['nb_of_samples']})")
     parser.add_argument("-s", "--seed", type=int, default=defaults["seed"],
-        help=f"random seed value (default is {defaults['seed']}, only used with 'random')")
+        help=f"random seed value (default is {defaults['seed']}, only used with 'random' and 'lhs')")
     parser.add_argument("-l", "--latinize", action="store_true",
-        help=f"use 'latinize' option in dakota (default is off, only used with 'halton' or 'hammersly')")
+        help=f"use 'latinize' option in dakota (default is off, only used with 'halton' and 'hammersly')")
     args = parser.parse_args()
 
     # run dakota_genz
